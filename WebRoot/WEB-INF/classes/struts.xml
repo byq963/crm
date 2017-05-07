@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="utf-8"></constant>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.objectFactory" value="spring" />
+	<package name="default" namespace="/" extends="struts-default">
+		<!-- 配置默认的action -->
+		<default-action-ref name="default"></default-action-ref>
+		<!-- 设置全局结果集 -->
+		<global-results>
+			<result name="error">/error.jsp</result>
+		</global-results>
+		<!-- 配置异常信息 -->
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		<action name="userAction" class="userActionBean">
+			<result>/index.jsp</result>
+			<result name="error">/login.jsp</result>
+			<result name="showUserFirst">/~user/list.jsp</result>
+			<result name="showRoleFirst">/~user/rolelist.jsp</result>
+			<result name="updateUserInput">/~user/edit.jsp</result>
+			<result name="addUserInput">/~user/add.jsp</result>
+			<result name="exit">/login.jsp</result>
+			<result name="addRoleInput">/~user/addrole.jsp</result>
+			<result name="updateRoleInput">/~user/editrole.jsp</result>
+		</action>
+		<action name="saleChanceAction" class="saleChanceActionBean">
+			<result name="showFirst">/~sale/list.jsp</result>
+			<result name="appointInput">/~sale/dispatch.jsp</result>
+			<result name="updateInput">/~sale/edit.jsp</result>
+			<result name="showSecond">/~sale/dev.jsp</result>
+			<result name="makePlanInput">/~sale/dev_plan.jsp</result>
+			<result name="doPlan">/~sale/dev_execute.jsp</result>
+			<result name="look">/~sale/dev_detail.jsp</result>
+		</action>
+		<action name="dictionaryAction" class="dictionaryActionBean">
+			<result name="showFirst">/~basd/dict.jsp</result>
+			<result name="addDictionaryInput">/~basd/dict_add.jsp</result>
+			<result name="updateInput">/~basd/dict_edit.jsp</result>
+		</action>
+		<action name="productAction" class="productActionBean">
+			<result name="showFirst">/~basd/product.jsp</result>
+		</action>
+		<action name="storageAction" class="storageActionBean">
+			<result name="showFirst">/~basd/storage.jsp</result>
+		</action>
+		<action name="custAction" class="custActionBean">
+			<result name="showFirst">/~cust/cust/list.jsp</result>
+			<result name="updateInput">/~cust/cust/edit.jsp</result>
+			<result name="checkLinkman">/~cust/cust/linkman.jsp</result>
+			<result name="updateInputLinkman">/~cust/cust/linkman_edit.jsp</result>
+			<result name="addInputLinkman">/~cust/cust/linkman_add.jsp</result>
+			<result name="checkRecord">/~cust/cust/activities.jsp</result>
+			<result name="updateInputRecord">/~cust/cust/activities_edit.jsp</result>
+			<result name="addInputrecord">/~cust/cust/activities_add.jsp</result>
+			<result name="checkOrders">/~cust/cust/orders.jsp</result>
+			<result name="checkOrdersLine">/~cust/cust/orders_detail.jsp</result>
+			<result name="contribution">/~rept/contr.jsp</result>
+			<result name="constitute">/~rept/cons.jsp</result>
+			<result name="serviceAnalysis">/~rept/ser.jsp</result>
+			<result name="lostAnalysis">/~rept/lost.jsp</result>
+		</action>
+		<action name="custLostAction" class="custLostActionBean">
+			<result name="showFirst">/~cust/lost/list.jsp</result>
+			<result name="confirmInput">/~cust/lost/confirm.jsp</result>
+			<result name="deferInput">/~cust/lost/relay.jsp</result>
+		</action>
+		<action name="serviceManagerAction" class="serviceManagerActionBean">
+			<result name="addInput">/~cust/service/add.jsp</result>
+			<result name="showAllCreate">/~cust/service/dispatch.jsp</result>
+			<result name="showAllNeadDeal">/~cust/service/deal.jsp</result>
+			<result name="dealInput">/~cust/service/deal_detail.jsp</result>
+			<result name="feedback">/~cust/service/feedback.jsp</result>
+			<result name="showClassify">/~cust/service/arch.jsp</result>
+			<result name="checkService">/~cust/service/detail.jsp</result>
+			<result name="reflectInput">/~cust/service/feedback_detail.jsp</result>
+		</action>
+		<action name="default">
+		    <result>error.jsp</result>
+		</action>
+	</package>
+</struts>    

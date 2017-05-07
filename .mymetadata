@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="byq_crm"
+  id="myeclipse.1470263323091"
+  context-root="/successcrm"
+  j2ee-spec="5.0"
+  archive="byq_crm.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver">
+		</property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl">
+		</property>
+		<property name="username" value="scott"></property>
+		<property name="password" value="tiger"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.Oracle9Dialect
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/prj/bean/Product.hbm.xml</value>
+				<value>com/prj/bean/SysRoleRight.hbm.xml</value>
+				<value>com/prj/bean/CustLinkman.hbm.xml</value>
+				<value>com/prj/bean/SysRight.hbm.xml</value>
+				<value>com/prj/bean/BasicDictionary.hbm.xml</value>
+				<value>com/prj/bean/CustCustomer.hbm.xml</value>
+				<value>com/prj/bean/Storage.hbm.xml</value>
+				<value>com/prj/bean/SysUser.hbm.xml</value>
+				<value>com/prj/bean/CustLost.hbm.xml</value>
+				<value>com/prj/bean/ServiceManager.hbm.xml</value>
+				<value>com/prj/bean/SysRole.hbm.xml</value>
+				<value>com/prj/bean/SalePlan.hbm.xml</value>
+				<value>com/prj/bean/Orders.hbm.xml</value>
+				<value>com/prj/bean/CommunicateRecord.hbm.xml</value>
+				<value>com/prj/bean/SaleChance.hbm.xml</value>
+				<value>com/prj/bean/OrdersLine.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 配置hibernateTemplate -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 配置事务 -->
+	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="userDaoBean" class="com.prj.dao.impl.UserDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="userBizBean" class="com.prj.biz.impl.UserBiz">
+		<property name="userDao" ref="userDaoBean"></property>
+	</bean>
+	<bean id="userActionBean" class="com.prj.action.UserAction">
+		<property name="userBiz" ref="userBizBean"></property>
+		<property name="sysRoleBiz" ref="sysRoleBizBean"></property>
+		<property name="sysRightBiz" ref="sysRightBizBean"></property>
+		<property name="sysRoleRightBiz" ref="sysRoleRightBizBean"></property>
+	</bean>
+	<bean id="sysRoleRightDaoBean" class="com.prj.dao.impl.SysRoleRightDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="sysRoleRightBizBean" class="com.prj.biz.impl.SysRoleRightBiz">
+		<property name="sysRoleRightDao" ref="sysRoleRightDaoBean"></property>
+	</bean>
+	<bean id="saleChanceDaoBean" class="com.prj.dao.impl.SaleChanceDao">
+	<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="saleChanceBizBean" class="com.prj.biz.impl.SaleChanceBiz">
+		<property name="salChanceDao" ref="saleChanceDaoBean"></property>
+	</bean>
+	<bean id="saleChanceActionBean" class="com.prj.action.SaleChanceAction">
+		<property name="saleChanceBiz" ref="saleChanceBizBean"></property>
+		<property name="userBiz" ref="userBizBean"></property>
+		<property name="salePlanBiz" ref="salePlanBizBean"></property>
+		<property name="custBiz" ref="custBizBean"></property>
+	</bean>
+	<bean id="dictionaryDaoBean" class="com.prj.dao.impl.DictionaryDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="dictionaryBizBean" class="com.prj.biz.impl.DictionaryBiz">
+		<property name="dictionaryDao" ref="dictionaryDaoBean"></property>
+	</bean>
+	<bean id="dictionaryActionBean" class="com.prj.action.DictionaryAction">
+		<property name="dictionaryBiz" ref="dictionaryBizBean"></property>
+	</bean>
+	<bean id="productDaoBean" class="com.prj.dao.impl.ProductDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="productBizBean" class="com.prj.biz.impl.ProductBiz">
+		<property name="productDao" ref="productDaoBean"></property>
+	</bean>
+	<bean id="productActionBean" class="com.prj.action.ProductAction">
+		<property name="productBiz" ref="productBizBean"></property>
+	</bean>
+	<bean id="storageDaoBean" class="com.prj.dao.impl.StorageDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="storageBizBean" class="com.prj.biz.impl.StorageBiz">
+		<property name="storageDao" ref="storageDaoBean"></property>
+	</bean>
+	<bean id="storageActionBean" class="com.prj.action.StorageAction">
+		<property name="storageBiz" ref="storageBizBean"></property>
+		<property name="productBiz" ref="productBizBean"></property>
+	</bean>
+	<bean id="salePlanDaoBean" class="com.prj.dao.impl.SalePlanDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="salePlanBizBean" class="com.prj.biz.impl.SalePlanBiz">
+		<property name="salePlanDao" ref="salePlanDaoBean"></property>
+	</bean>
+	<bean id="custDaoBean" class="com.prj.dao.impl.CustomerDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="custBizBean" class="com.prj.biz.impl.CustomerBiz">
+		<property name="custDao" ref="custDaoBean"></property>
+	</bean>
+	<bean id="custActionBean" class="com.prj.action.CustomerAction">
+		<property name="custBiz" ref="custBizBean"></property>
+		<property name="dictionaryBiz" ref="dictionaryBizBean"></property>
+		<property name="sysRoleBiz" ref="sysRoleBizBean"></property>
+		<property name="custLinkmanBiz" ref="custLinkmanBiz"></property>
+		<property name="recordBiz" ref="recordBizBean"></property>
+		<property name="ordersBiz" ref="ordersBizBean"></property>
+		<property name="serviceManagerBiz" ref="serviceManagerBizBean"></property>
+		<property name="custLostBiz" ref="custLostBizBean"></property>
+	</bean>
+	<bean id="sysRoleDaoBean" class="com.prj.dao.impl.SysRoleDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="sysRoleBizBean" class="com.prj.biz.impl.SysRoleBiz">
+		<property name="sysRoleDao" ref="sysRoleDaoBean"></property>
+	</bean>
+	<bean id="custLinkmanDao" class="com.prj.dao.impl.CustLinkmanDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="custLinkmanBiz" class="com.prj.biz.impl.CustLinkmanBiz">
+		<property name="custLinkmanDao" ref="custLinkmanDao"></property>
+	</bean>
+	<bean id="recordDaoBean" class="com.prj.dao.impl.RecordDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="recordBizBean" class="com.prj.biz.impl.RecordBiz">
+		<property name="recordDao" ref="recordDaoBean"></property>
+	</bean>
+	<bean id="ordersDaoBean" class="com.prj.dao.impl.OrdersDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="ordersBizBean" class="com.prj.biz.impl.OrdersBiz">
+		<property name="ordersDao" ref="ordersDaoBean"></property>
+	</bean>
+	<bean id="custLostDaoBean" class="com.prj.dao.impl.CustLostDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="custLostBizBean" class="com.prj.biz.impl.CustLostBiz">
+		<property name="custLostDao" ref="custLostDaoBean"></property>
+	</bean>
+	<bean id="custLostActionBean" class="com.prj.action.CustLostAction">
+		<property name="custLostBiz" ref="custLostBizBean"></property>
+		<property name="dictionaryBiz" ref="dictionaryBizBean"></property>
+		<property name="customerBiz" ref="custBizBean"></property>
+	</bean>
+	<bean id="serviceManagerDaoBean" class="com.prj.dao.impl.ServiceManagerDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="serviceManagerBizBean" class="com.prj.biz.impl.ServiceManagerBiz">
+		<property name="serviceManagerDao" ref="serviceManagerDaoBean"></property>
+	</bean>
+	<bean id="serviceManagerActionBean" class="com.prj.action.ServiceManagerAction">
+		<property name="serviceManagerBiz" ref="serviceManagerBizBean"></property>
+		<property name="dictionaryBiz" ref="dictionaryBizBean"></property>
+		<property name="customerBiz" ref="custBizBean"></property>
+		<property name="userBiz" ref="userBizBean"></property>
+	</bean>
+	<bean id="sysRightDaoBean" class="com.prj.dao.impl.SysRightDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="sysRightBizBean" class="com.prj.biz.impl.SysRightBiz">
+		<property name="sysRightDao" ref="sysRightDaoBean"></property>
+	</bean>
+	<!-- advice配置 将事务交给advice -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<!-- 设置事务的抓取方式 -->
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="query*" propagation="NOT_SUPPORTED" />
+			<tx:method name="get*" propagation="NOT_SUPPORTED" />
+			<tx:method name="show*" propagation="NOT_SUPPORTED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="find*" propagation="NOT_SUPPORTED" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 定义切面规则 并且绑定切面 -->
+	<!-- 事务一般是放在biz层的 -->
+	<aop:config>
+		<aop:pointcut expression="execution(public * com.prj.biz.impl.*.*(..))"
+			id="mypc" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="mypc" />
+	</aop:config>
+</beans>
